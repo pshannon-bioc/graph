@@ -1,0 +1,5 @@
+sf 24.01.2006:
+   Need to improve toGXL so that attributes are properly written out.
+
+wh 28.01.2005: can we have a "==" function for graphs (e.g. graphNEL)?
+
