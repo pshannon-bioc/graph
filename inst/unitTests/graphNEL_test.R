@@ -26,6 +26,23 @@ simpleDirectedGraphNEL <- function() {
      gR
 }
 
+testConstructorFunction <- function() {
+    nodes <- LETTERS[1:4]
+    edgeL <- list(A=c("B", "C"), B="C", C="D")
+
+    ## no-argument constructor
+    target <- new("graphNEL")
+    checkIdentical(target, graphNEL())
+
+    ## node / edgeList constructor
+    target <- new("graphNEL", nodes=nodes, edgeL=edgeL, edgemode="directed")
+    checkIdentical(target, graphNEL(nodes, edgeL, "directed"))
+
+    ## edgemode default == "undirected"
+    edgeL2 <- c(edgeL, list(B = "A", C = c("A", "B"), D = "C"))
+    target <- new("graphNEL", nodes=nodes, edgeL=edgeL2)
+    checkIdentical(target, graphNEL(nodes, edgeL, "undirected"))
+}
 
 testCreateBadNodeNames <- function() {
     badNodeName <- paste("foo", graph:::EDGE_KEY_SEP, "bar", sep="")

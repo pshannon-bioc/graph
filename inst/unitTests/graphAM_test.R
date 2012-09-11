@@ -37,7 +37,26 @@ simpleDirectedGraph <- function() {
     new("graphAM", adjMat=mat, edgemode="directed")
 }
 
+testConstructorFunction <- function() {
+    ## no-argument constructor
+    adjMat <- matrix(integer(), 0, 0)
+    target <- new("graphAM", adjMat=adjMat)
+    checkIdentical(target, graphAM())
 
+    ## adjMat constructor
+    adjMat <- simpleAdjMat()
+    target <- new("graphAM", adjMat=adjMat, edgemode="directed")
+    checkIdentical(target, graphAM(adjMat, "directed"))
+    target <- new("graphAM", adjMat=adjMat, edgemode="undirected")
+    checkIdentical(target, graphAM(adjMat, "undirected"))
+    checkIdentical(target, graphAM(adjMat))
+
+    ## values
+    values <- list(weight=1)
+    target <- new("graphAM", adjMat=adjMat, edgemode="directed",
+                  values=values)
+    checkIdentical(target, graphAM(adjMat, "directed", values))
+}
 
 testInvalidNonSquare <- function() {
     mat <- cbind(c(0, 0, 1), c(1, 1, 1))
