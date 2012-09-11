@@ -30,7 +30,11 @@ added so that
 
     ?graphNEL
 
-takes the user to the appropriate location.
+takes the user to the appropriate location. It is appropriate to
+document constructors on the same page as the class and its methods; a
+stub is provided as an example in
+
+    man/graphNEL-class.Rd
 
 # Deliverables
 
