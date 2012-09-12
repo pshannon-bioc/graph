@@ -1,4 +1,42 @@
+
+
 ##.setUp <- function() RNGkind("default", "default")
+run.tests <- function () {
+    testConstructorFunction ()
+    testCreateBadNodeNames ()
+    testIsAdjacent ()
+    testNumEdges ()
+    testInEdges ()
+    testEmptyGraph ()
+    testCreateGraphNoEdges ()
+    testConstructor ()
+    testNullHandlingInEdgeL ()
+    testCaptureWeightsWithEdgeLUndirected ()
+    testCaptureWeightsWithEdgeLDirected ()
+    testAddNode ()
+    testAddNodeWithEdges ()
+    testAddNodeWithEdgesAndWeights ()
+    testAddNodeBadNodeName ()
+    testSubGraphNoEdges ()
+    testSubGraphNoEdgesDirected ()
+    testSubGraphAttributes ()
+    testRemoveEdgeUndirected ()
+    testRemoveEdgeDirected ()
+    testRemoveEdgeLarge ()
+    testRemoveEdgeLarge2 ()
+    test_eWV ()
+    testEdgeWeightsNoEdges ()
+    testRemoveNode1 ()
+    testRemoveNode2 ()
+    test_ugraph ()
+    test_rename_nodes_edgeWeights ()
+    test_rename_nodes_nodeData ()
+    test_subgraph_attrs ()
+    test_ftM2_with_self_edges ()
+    test_coerce_matrix_round_trip ()
+
+} # run.tests
+
 
 simpleGraphNEL <- function() {
      V <- letters[1:4]
@@ -8,7 +46,7 @@ simpleGraphNEL <- function() {
      edL[["b"]] <- list(edges=c(3, 4), weights=c(.23, .24))
      edL[["c"]] <- list(edges=c(1, 2, 4), weights=c(.13, .23, .34))
      edL[["d"]] <- list(edges=c(1, 2, 3), weights=c(.14, .24, .34))
-     gR <- new("graphNEL", nodes=V, edgeL=edL)
+     gR <- graphNEL (nodes=V, edgeL=edL)
      gR
  }
 
@@ -22,7 +60,7 @@ simpleDirectedGraphNEL <- function() {
      edL[["b"]] <- list(edges=c(3), weights=.23)
      edL[["c"]] <- list(edges=numeric(0), weights=numeric(0))
      edL[["d"]] <- list(edges=c(2, 3), weights=c(.42, .43))
-     gR <- new("graphNEL", nodes=V, edgeL=edL, edgemode="directed")
+     gR <- graphNEL  (nodes=V, edgeL=edL, edgemode="directed")
      gR
 }
 
@@ -31,24 +69,24 @@ testConstructorFunction <- function() {
     edgeL <- list(A=c("B", "C"), B="C", C="D")
 
     ## no-argument constructor
-    target <- new("graphNEL")
+    target <- graphNEL ()
     checkIdentical(target, graphNEL())
 
     ## node / edgeList constructor
-    target <- new("graphNEL", nodes=nodes, edgeL=edgeL, edgemode="directed")
+    target <- graphNEL (nodes=nodes, edgeL=edgeL, edgemode="directed")
     checkIdentical(target, graphNEL(nodes, edgeL, "directed"))
 
     ## edgemode default == "undirected"
-    edgeL2 <- c(edgeL, list(B = "A", C = c("A", "B"), D = "C"))
-    target <- new("graphNEL", nodes=nodes, edgeL=edgeL2)
-    checkIdentical(target, graphNEL(nodes, edgeL, "undirected"))
+    edgeL2 <- list(A=c("B", "C"), B = c("A", "C"), C = c("A", "B", "D"), D = "C")
+    target <- graphNEL (nodes=nodes, edgeL=edgeL2)
+    checkIdentical(target, graphNEL(nodes, edgeL2, "undirected"))
 }
 
 testCreateBadNodeNames <- function() {
     badNodeName <- paste("foo", graph:::EDGE_KEY_SEP, "bar", sep="")
-    checkException(new("graphNEL", nodes=badNodeName), silent=TRUE)
-    checkException(new("graphNEL", nodes=c(NA, "b")), silent=TRUE)
-    checkException(new("graphNEL", nodes=c("a", "")), silent=TRUE)
+    checkException(graphNEL(nodes=badNodeName), silent=TRUE)
+    checkException(graphNEL(nodes=c(NA, "b")), silent=TRUE)
+    checkException(graphNEL(nodes=c("a", "")), silent=TRUE)
 }
 
 
@@ -89,18 +127,18 @@ testInEdges <- function() {
 }
 
 testEmptyGraph <- function() {
-    g <- new("graphNEL")
+    g <- graphNEL ()
     checkEquals(0, numEdges(g))
     checkEquals(0, numNodes(g))
 }
 
 
 testCreateGraphNoEdges <- function() {
-    g <- new("graphNEL", nodes=c("a", "b"))
+    g <- graphNEL(nodes=c("a", "b"))
     checkEquals(0, numEdges(g))
     checkEquals(2, numNodes(g))
 
-    g <- new("graphNEL", nodes=c("a", "b"), edgeL=list())
+    g <- graphNEL(nodes=c("a", "b"), edgeL=list())
     checkEquals(0, numEdges(g))
     checkEquals(2, numNodes(g))
 
@@ -112,13 +150,13 @@ testCreateGraphNoEdges <- function() {
 
 testConstructor <- function() {
     g <- simpleGraphNEL()
-    g2 <- new("graphNEL", nodes=nodes(g), edgeL=edges(g))
+    g2 <- graphNEL(nodes=nodes(g), edgeL=edges(g))
     checkEquals(nodes(g), nodes(g2))
     checkEquals(edges(g), edges(g2))
 
     ## We also support the more complicated list structure for describing graph
     ## edges.
-    g2 <- new("graphNEL", nodes=nodes(g), edgeL=g@edgeL)
+    g2 <- graphNEL(nodes=nodes(g), edgeL=g@edgeL)
     checkEquals(nodes(g), nodes(g2))
     checkEquals(edges(g), edges(g2))
 }
@@ -128,7 +166,7 @@ testNullHandlingInEdgeL <- function() {
     g <- simpleDirectedGraphNEL()
     eL <- g@edgeL
     eL <- c(eL[c("a", "b", "c")], list(d=NULL))
-    g2 <- new("graphNEL", nodes(g), eL, "directed")
+    g2 <- graphNEL(nodes(g), eL, "directed")
     checkTrue(all(sapply(g2@edgeL, function(x) !is.null(x))))
 }
 
@@ -318,7 +356,7 @@ testRemoveEdgeLarge2 <- function() {
 
 test_eWV <- function() {
     V <- LETTERS[1:4]
-    gR <- new("graphNEL", nodes=V)
+    gR <- graphNEL(nodes=V)
     gX <- addEdge("A", "C", gR, 0.2)
 
     ans <- eWV(gX, edgeMatrix(gX), useNNames = TRUE)
@@ -327,7 +365,7 @@ test_eWV <- function() {
 
 
 testEdgeWeightsNoEdges <- function() {
-    g <- new("graphNEL", nodes=letters[1:6])
+    g <- graphNEL(nodes=letters[1:6])
     expect <- lapply(edges(g), as.numeric)
     checkEquals(expect, edgeWeights(g))
 }
@@ -341,7 +379,7 @@ testRemoveNode1 <- function() {
     for(i in 1:4)
       edL2[[i]] <- list(edges=c(2,1,2,1)[i],
                         weights=sqrt(i))
-    gR2 <- new("graphNEL", nodes=V, edgeL=edL2, edgemode="directed")
+    gR2 <- graphNEL(nodes=V, edgeL=edL2, edgemode="directed")
 
     gX <- removeNode("C", gR2)
     checkEquals(c("A", "B", "D"), nodes(gX))
@@ -414,7 +452,7 @@ test_rename_nodes_nodeData <- function() {
 }
 
 test_subgraph_attrs <- function() {
-    x <- new("graphNEL", nodes=c("a", "b"),
+    x <- graphNEL(nodes=c("a", "b"),
              edgeL=list(a="b", b="b"),
              edgemode="directed")
     defs <- list(tag="NONE")
@@ -446,7 +484,7 @@ test_ftM2_with_self_edges <- function() {
 test_coerce_matrix_round_trip <- function()
 {
     V <- LETTERS[1:4]
-    g <- new("graphNEL", nodes=V, edgemode="directed")
+    g <- graphNEL(nodes=V, edgemode="directed")
     g <- addEdge(V[1+0],V[1+1],g, 3)
     g <- addEdge(V[1+0],V[2+1],g, 1.5)
     g <- addEdge(V[1+0],V[3+1],g, 1.8)
