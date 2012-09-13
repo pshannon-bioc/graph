@@ -60,7 +60,7 @@ Class \code{"graph"}, directly.
 }
 
 \section{Constructor}{
-  \code{graphNEL(nodes=character(), edgeL=list(), edgemode=character())}
+  \code{graphNEL(nodes=character(), edgeL=list(), edgemode='undirected')}
   creates a graphNEL instance.
 
   \describe{
