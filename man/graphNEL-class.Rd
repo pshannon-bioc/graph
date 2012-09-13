@@ -1,6 +1,7 @@
 \name{graphNEL-class}
 \docType{class}
 \alias{graphNEL-class}
+\alias{graphNEL}
 \alias{coerce}
 \alias{edgeL}
 \alias{edges}
@@ -156,7 +157,7 @@ Class \code{"graph"}, directly.
    names(edL) <- V
    for(i in 1:4)
       edL[[i]] <- list(edges=5-i, weights=runif(1))
-   gR <- new("graphNEL", nodes=V, edgeL=edL)
+   gR <- graphNEL(nodes=V, edgeL=edL)
    edges(gR)
    edgeWeights(gR)
 }

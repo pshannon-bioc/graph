@@ -46,7 +46,7 @@ simpleGraphNEL <- function() {
      edL[["b"]] <- list(edges=c(3, 4), weights=c(.23, .24))
      edL[["c"]] <- list(edges=c(1, 2, 4), weights=c(.13, .23, .34))
      edL[["d"]] <- list(edges=c(1, 2, 3), weights=c(.14, .24, .34))
-     gR <- graphNEL (nodes=V, edgeL=edL)
+     gR <- graphNEL(nodes=V, edgeL=edL)
      gR
  }
 
@@ -60,7 +60,7 @@ simpleDirectedGraphNEL <- function() {
      edL[["b"]] <- list(edges=c(3), weights=.23)
      edL[["c"]] <- list(edges=numeric(0), weights=numeric(0))
      edL[["d"]] <- list(edges=c(2, 3), weights=c(.42, .43))
-     gR <- graphNEL  (nodes=V, edgeL=edL, edgemode="directed")
+     gR <- graphNEL(nodes=V, edgeL=edL, edgemode="directed")
      gR
 }
 
@@ -69,16 +69,16 @@ testConstructorFunction <- function() {
     edgeL <- list(A=c("B", "C"), B="C", C="D")
 
     ## no-argument constructor
-    target <- graphNEL ()
+    target <- graphNEL()
     checkIdentical(target, graphNEL())
 
     ## node / edgeList constructor
-    target <- graphNEL (nodes=nodes, edgeL=edgeL, edgemode="directed")
+    target <- graphNEL(nodes=nodes, edgeL=edgeL, edgemode="directed")
     checkIdentical(target, graphNEL(nodes, edgeL, "directed"))
 
     ## edgemode default == "undirected"
     edgeL2 <- list(A=c("B", "C"), B = c("A", "C"), C = c("A", "B", "D"), D = "C")
-    target <- graphNEL (nodes=nodes, edgeL=edgeL2)
+    target <- graphNEL(nodes=nodes, edgeL=edgeL2)
     checkIdentical(target, graphNEL(nodes, edgeL2, "undirected"))
 }
 
@@ -127,7 +127,7 @@ testInEdges <- function() {
 }
 
 testEmptyGraph <- function() {
-    g <- graphNEL ()
+    g <- graphNEL()
     checkEquals(0, numEdges(g))
     checkEquals(0, numNodes(g))
 }

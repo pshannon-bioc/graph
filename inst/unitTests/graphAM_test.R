@@ -92,10 +92,18 @@ testConstructorFunction <- function() {
     checkIdentical(target, graphAM(adjMat, "undirected"))
     checkIdentical(target, graphAM(adjMat))
 
-    ## values
-    values <- list(weight=1)
+    ## values:  adjacency matrix non-zero (and necessarily positive) values
+    ## will be used as edge weights, an edge attribute. the -1 is ignored
+    ## in all cases, but retrievable via edgeDataDefaults
+    ## values is to contain exactly one name, and one value
+    ## the name indicates the edge attribute, whose values come from the
+    ## elements of the adjacency matrix:  often, but not necessarily, set to 1
+
+    values <- list(weight=-1)  
     target <- graphAM (adjMat=adjMat, edgemode="directed",
                   values=values)
+    checkEquals (edgeData(target, 'a', 'c', attr='weight')[[1]], 1)
+    checkEquals (edgeDataDefaults(target, 'weight'), -1)
     checkIdentical(target, graphAM(adjMat, "directed", values))
 }
 

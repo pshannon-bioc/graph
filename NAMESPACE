@@ -35,7 +35,7 @@ exportMethods(DFS, Dist, acc, addEdge, addNode, adj,
       graphIntersect, graphUnion, removeEdgesByWeight, edgeSets)
 
 
-export(boundary, buildRepDepGraph, calcProb, calcSumProb,
+export(graphNEL, graphAM, boundary, buildRepDepGraph, calcProb, calcSumProb,
        duplicatedEdges, graph2SparseM, listEdges,
        randomEGraph, randomGraph, randomNodeGraph,
        validGraph, eWV, pathWeights, .dropEdges, 
