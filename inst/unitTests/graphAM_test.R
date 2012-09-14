@@ -1,44 +1,3 @@
-run.tests = function () {
-    testConstructorFunction ()
-    testInvalidNonSquare ()
-    testInvalidNegativeValues ()
-    testInvalidNonSymmetric ()
-    testInvalidBadNodeNames ()
-    test_empty_graph ()
-    test_no_edge_graph ()
-    testValuesToAttr ()
-    testEdges ()
-    testEdgesDirected ()
-    testEdgesSubset ()
-    testNodeNames ()
-    testNodeNamesReplace ()
-    testNumNodes ()
-    testNumEdges ()
-    testNumEdgesWithSelfLoop ()
-    testIsAdjacent ()
-    testIsAdjacentVectorized ()
-    ## testSubgraph ()
-    testSimpleEdgeWeights ()
-    testAddNode ()
-    testAddEdge ()
-    testAddEdgeMultiple ()
-    testClearNode ()
-    testRemoveNode ()
-    testRemoveEdge ()
-    testRemoveEdgeWithWeights ()
-    testGraphAMCloning ()
-    testUndirectedAsGraphNEL ()
-    testDirectedAsGraphNEL ()
-    testDirectedAsGraphAM ()
-    testInEdges ()
-    testNoEdges ()
-    testAsMatrix ()
-    test_coerce_matrix_to_graphAM ()
-    test_edgeMatrix ()
-    test_rename_nodes_edgeWeights ()
-    test_rename_nodes_nodeData ()
-} # run.tests
-
 simpleAdjMat <- function() {
     ## Here's a simple graph for testing
     ##    a           b
@@ -81,14 +40,14 @@ simpleDirectedGraph <- function() {
 testConstructorFunction <- function() {
     ## no-argument constructor
     adjMat <- matrix(integer(), 0, 0)
-    target <- graphAM (adjMat=adjMat)
+    target <- new("graphAM", adjMat=adjMat)
     checkIdentical(target, graphAM())
 
     ## adjMat constructor
     adjMat <- simpleAdjMat()
-    target <- graphAM (adjMat=adjMat, edgemode="directed")
+    target <- new("graphAM", adjMat=adjMat, edgemode="directed")
     checkIdentical(target, graphAM(adjMat, "directed"))
-    target <- graphAM (adjMat=adjMat, edgemode="undirected")
+    target <- new("graphAM", adjMat=adjMat, edgemode="undirected")
     checkIdentical(target, graphAM(adjMat, "undirected"))
     checkIdentical(target, graphAM(adjMat))
 
@@ -100,7 +59,7 @@ testConstructorFunction <- function() {
     ## elements of the adjacency matrix:  often, but not necessarily, set to 1
 
     values <- list(weight=-1)  
-    target <- graphAM (adjMat=adjMat, edgemode="directed",
+    target <- new("graphAM", adjMat=adjMat, edgemode="directed",
                   values=values)
     checkEquals (edgeData(target, 'a', 'c', attr='weight')[[1]], 1)
     checkEquals (edgeDataDefaults(target, 'weight'), -1)

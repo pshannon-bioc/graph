@@ -1,42 +1,6 @@
 
 
 ##.setUp <- function() RNGkind("default", "default")
-run.tests <- function () {
-    testConstructorFunction ()
-    testCreateBadNodeNames ()
-    testIsAdjacent ()
-    testNumEdges ()
-    testInEdges ()
-    testEmptyGraph ()
-    testCreateGraphNoEdges ()
-    testConstructor ()
-    testNullHandlingInEdgeL ()
-    testCaptureWeightsWithEdgeLUndirected ()
-    testCaptureWeightsWithEdgeLDirected ()
-    testAddNode ()
-    testAddNodeWithEdges ()
-    testAddNodeWithEdgesAndWeights ()
-    testAddNodeBadNodeName ()
-    testSubGraphNoEdges ()
-    testSubGraphNoEdgesDirected ()
-    testSubGraphAttributes ()
-    testRemoveEdgeUndirected ()
-    testRemoveEdgeDirected ()
-    testRemoveEdgeLarge ()
-    testRemoveEdgeLarge2 ()
-    test_eWV ()
-    testEdgeWeightsNoEdges ()
-    testRemoveNode1 ()
-    testRemoveNode2 ()
-    test_ugraph ()
-    test_rename_nodes_edgeWeights ()
-    test_rename_nodes_nodeData ()
-    test_subgraph_attrs ()
-    test_ftM2_with_self_edges ()
-    test_coerce_matrix_round_trip ()
-
-} # run.tests
-
 
 simpleGraphNEL <- function() {
      V <- letters[1:4]
@@ -69,16 +33,17 @@ testConstructorFunction <- function() {
     edgeL <- list(A=c("B", "C"), B="C", C="D")
 
     ## no-argument constructor
-    target <- graphNEL()
+    target <- new("graphNEL")
     checkIdentical(target, graphNEL())
 
     ## node / edgeList constructor
-    target <- graphNEL(nodes=nodes, edgeL=edgeL, edgemode="directed")
+    target <- new("graphNEL", nodes=nodes, edgeL=edgeL, edgemode="directed")
     checkIdentical(target, graphNEL(nodes, edgeL, "directed"))
 
     ## edgemode default == "undirected"
-    edgeL2 <- list(A=c("B", "C"), B = c("A", "C"), C = c("A", "B", "D"), D = "C")
-    target <- graphNEL(nodes=nodes, edgeL=edgeL2)
+    edgeL2 <- list(A = c("B", "C"), B = c("A", "C"),
+                   C = c("A", "B", "D"), D = "C")
+    target <- new("graphNEL", nodes=nodes, edgeL=edgeL2)
     checkIdentical(target, graphNEL(nodes, edgeL2, "undirected"))
 }
 

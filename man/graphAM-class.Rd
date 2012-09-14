@@ -41,7 +41,8 @@
 }
 
 \section{Objects from the Class}{
-Objects can be created by calls of the form \code{graphAM(adjMat, edgemode, values)}.
+  Objects can be created by calls of the form \code{graphAM(adjMat,
+  edgemode, values)}.
 }
 \section{Slots}{
   \describe{
@@ -72,8 +73,6 @@ Class \code{"graph"}, directly.
   which is traditionally 1, but can be any positive number.}
     }
 }
-
-
 
 \section{Methods}{
   \describe{
